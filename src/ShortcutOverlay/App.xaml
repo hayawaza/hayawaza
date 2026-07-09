@@ -1,0 +1,5 @@
+<Application x:Class="ShortcutOverlay.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- StartupUri を指定しない: App.xaml.cs で手動生成 -->
+</Application>

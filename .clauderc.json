@@ -1,0 +1,16 @@
+{
+  "includePatterns": [
+    "CONTEXT.md",
+    "docs/**",
+    "src/ShortcutOverlay/**/*.cs",
+    "src/ShortcutOverlay/**/*.xaml",
+    "src/ShortcutOverlay/**/*.json",
+    "src/ShortcutOverlay/*.csproj",
+    "src/ShortcutOverlay/*.manifest"
+  ],
+  "excludePatterns": [
+    "src/ShortcutOverlay/bin/**",
+    "src/ShortcutOverlay/obj/**",
+    "reports/**"
+  ]
+}

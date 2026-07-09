@@ -1,0 +1,182 @@
+[
+  {
+    "id": "excel-ctrl-home",
+    "app": "excel",
+    "category": "移動",
+    "label": "先頭セル (A1) に移動",
+    "keys": ["Ctrl", "Home"],
+    "keyType": "combo",
+    "defaultVisible": true
+  },
+  {
+    "id": "excel-ctrl-end",
+    "app": "excel",
+    "category": "移動",
+    "label": "データ末尾セルに移動",
+    "keys": ["Ctrl", "End"],
+    "keyType": "combo",
+    "defaultVisible": true
+  },
+  {
+    "id": "excel-ctrl-arrow",
+    "app": "excel",
+    "category": "移動",
+    "label": "データ端まで移動",
+    "keys": ["Ctrl", "↑/↓/←/→"],
+    "keyType": "combo",
+    "defaultVisible": true
+  },
+  {
+    "id": "excel-ctrl-z",
+    "app": "excel",
+    "category": "編集",
+    "label": "元に戻す",
+    "keys": ["Ctrl", "Z"],
+    "keyType": "combo",
+    "defaultVisible": true
+  },
+  {
+    "id": "excel-ctrl-y",
+    "app": "excel",
+    "category": "編集",
+    "label": "やり直し",
+    "keys": ["Ctrl", "Y"],
+    "keyType": "combo",
+    "defaultVisible": true
+  },
+  {
+    "id": "excel-f2",
+    "app": "excel",
+    "category": "編集",
+    "label": "セル編集モード",
+    "keys": ["F2"],
+    "keyType": "combo",
+    "defaultVisible": true
+  },
+  {
+    "id": "excel-ctrl-d",
+    "app": "excel",
+    "category": "編集",
+    "label": "下方向にコピー",
+    "keys": ["Ctrl", "D"],
+    "keyType": "combo",
+    "defaultVisible": true
+  },
+  {
+    "id": "excel-alt-h-b",
+    "app": "excel",
+    "category": "書式",
+    "label": "太字",
+    "keys": ["Alt", "H", "B"],
+    "keyType": "sequence",
+    "defaultVisible": true
+  },
+  {
+    "id": "excel-alt-h-fc",
+    "app": "excel",
+    "category": "書式",
+    "label": "フォントカラー変更",
+    "keys": ["Alt", "H", "FC"],
+    "keyType": "sequence",
+    "defaultVisible": true
+  },
+  {
+    "id": "excel-ctrl-1",
+    "app": "excel",
+    "category": "書式",
+    "label": "セルの書式設定ダイアログ",
+    "keys": ["Ctrl", "1"],
+    "keyType": "combo",
+    "defaultVisible": true
+  },
+  {
+    "id": "ppt-f5",
+    "app": "powerpnt",
+    "category": "スライドショー",
+    "label": "最初からスライドショー開始",
+    "keys": ["F5"],
+    "keyType": "combo",
+    "defaultVisible": true
+  },
+  {
+    "id": "ppt-shift-f5",
+    "app": "powerpnt",
+    "category": "スライドショー",
+    "label": "現在のスライドからショー開始",
+    "keys": ["Shift", "F5"],
+    "keyType": "combo",
+    "defaultVisible": true
+  },
+  {
+    "id": "ppt-ctrl-m",
+    "app": "powerpnt",
+    "category": "スライド操作",
+    "label": "新しいスライドを挿入",
+    "keys": ["Ctrl", "M"],
+    "keyType": "combo",
+    "defaultVisible": true
+  },
+  {
+    "id": "ppt-ctrl-d",
+    "app": "powerpnt",
+    "category": "スライド操作",
+    "label": "スライドを複製",
+    "keys": ["Ctrl", "D"],
+    "keyType": "combo",
+    "defaultVisible": true
+  },
+  {
+    "id": "ppt-ctrl-g",
+    "app": "powerpnt",
+    "category": "オブジェクト",
+    "label": "オブジェクトをグループ化",
+    "keys": ["Ctrl", "G"],
+    "keyType": "combo",
+    "defaultVisible": true
+  },
+  {
+    "id": "ppt-ctrl-shift-g",
+    "app": "powerpnt",
+    "category": "オブジェクト",
+    "label": "グループ解除",
+    "keys": ["Ctrl", "Shift", "G"],
+    "keyType": "combo",
+    "defaultVisible": true
+  },
+  {
+    "id": "ppt-tab",
+    "app": "powerpnt",
+    "category": "オブジェクト",
+    "label": "次のオブジェクトを選択",
+    "keys": ["Tab"],
+    "keyType": "combo",
+    "defaultVisible": true
+  },
+  {
+    "id": "ppt-ctrl-b",
+    "app": "powerpnt",
+    "category": "テキスト書式",
+    "label": "太字",
+    "keys": ["Ctrl", "B"],
+    "keyType": "combo",
+    "defaultVisible": true
+  },
+  {
+    "id": "ppt-ctrl-shift-gt",
+    "app": "powerpnt",
+    "category": "テキスト書式",
+    "label": "フォントサイズを大きく",
+    "keys": ["Ctrl", "Shift", ">"],
+    "keyType": "combo",
+    "defaultVisible": true
+  },
+  {
+    "id": "ppt-ctrl-shift-lt",
+    "app": "powerpnt",
+    "category": "テキスト書式",
+    "label": "フォントサイズを小さく",
+    "keys": ["Ctrl", "Shift", "<"],
+    "keyType": "combo",
+    "defaultVisible": true
+  }
+]
