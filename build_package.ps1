@@ -12,7 +12,7 @@ $ErrorActionPreference = "Stop"
 $root      = $PSScriptRoot
 $proj      = Join-Path $root "src\ShortcutOverlay"
 $publishDir = Join-Path $root "publish"
-$outputDir  = "C:\Users\atomu.handa\OneDrive - Accenture\00.claude\_outputs\hayawaza"
+$outputDir  = Join-Path (Split-Path (Split-Path $root -Parent) -Parent) "_outputs\hayawaza"
 
 Write-Host "=== Hayawaza Build Pipeline ===" -ForegroundColor Cyan
 Write-Host "Version : $Version"

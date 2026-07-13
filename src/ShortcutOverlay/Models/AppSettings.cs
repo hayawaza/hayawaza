@@ -41,4 +41,7 @@ public class AppSettings
 
     /// <summary>デバッグ用プロセス差し替え。空なら excel/powerpnt を使用</summary>
     public List<string> DebugTargetProcesses { get; set; } = new();
+
+    /// <summary>初回起動フラグ。ウェルカム画面表示後に false にする</summary>
+    public bool IsFirstRun { get; set; } = true;
 }

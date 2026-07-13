@@ -6,6 +6,10 @@ src/ShortcutOverlay/publish/
 # Releases
 Releases/
 
+# Publish output
+src/ShortcutOverlay/publish/
+publish/
+
 # VS / Rider
 .vs/
 .idea/

@@ -247,7 +247,6 @@ public partial class MainWindow : Window
                 MoveToSameMonitorAs(hwnd);
 
             UpdateOverlay(processName, resetCategory: isNewApp);
-            DebugLabel.Text = $"proc: {processName}";
         });
     }
 

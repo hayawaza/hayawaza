@@ -105,8 +105,12 @@ public partial class SettingsWindow : Window
         RefreshAddCategories("excel");
         RefreshAddCategories("powerpnt");
 
-        // デバッグ
-        DebugProcessBox.Text = string.Join(",", _settings.DebugTargetProcesses);
+        // スタートアップ
+        StartupCheck.IsChecked = StartupService.IsEnabled();
+
+        // バージョン
+        var ver = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+        VersionLabel.Text = ver is null ? "" : $"v{ver.Major}.{ver.Minor}.{ver.Build}";
     }
 
     // ── ショートカットグループUI構築（DataTemplate 不使用） ────────────────
@@ -468,13 +472,9 @@ public partial class SettingsWindow : Window
                     if (!item.IsVisible)
                         _settings.HiddenShortcuts.Add(item.Id);
 
-        _settings.DebugTargetProcesses.Clear();
-        var debug = DebugProcessBox.Text.Trim();
-        if (!string.IsNullOrEmpty(debug))
-            _settings.DebugTargetProcesses.AddRange(
-                debug.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries));
-
         _settings.PollingIntervalMs = (int)PollingSlider.Value;
+
+        StartupService.SetEnabled(StartupCheck.IsChecked == true);
 
         _settings.Save();
         Close();

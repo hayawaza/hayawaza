@@ -1,57 +1,94 @@
-# ShortcutOverlay
+# Hayawaza — キーボードショートカット オーバーレイ
 
-Excel / PowerPoint の操作中にキーボードショートカット一覧を半透明オーバーレイで表示する Windows 常駐デスクトップアプリ。
+Excel / PowerPoint のキーボードショートカットを画面に重ねて表示するツールです。
 
-## 特徴
+## ダウンロード・インストール
 
-- 最前面アプリが Excel / PowerPoint に切り替わると自動でオーバーレイ表示
-- クリックスルー対応（オーバーレイ越しに下のウィンドウを操作可能）
-- 常時表示 / ホットキー呼び出し の2モード
-- ショートカット個別 ON/OFF、透過率・サイズ・位置の GUI 調整
-- 非管理者権限で動作、インストーラー不要 (xcopy 配布)
-- ネットワーク通信なし
+1. [Releases](https://github.com/hayawaza/hayawaza/releases/latest) を開く
+2. **`Hayawaza-stable-Setup.exe`** をダウンロード
+3. ダブルクリックで実行（インストーラーが自動でセットアップします）
+
+> SmartScreen の警告が出た場合: 「詳細情報」→「実行」で続行してください。
+
+---
+
+## 使い方
+
+| 操作 | 動作 |
+|---|---|
+| **右 Shift** を押し続ける | ショートカット一覧を表示 |
+| **右 Shift + 左 Shift** | カテゴリを次に切り替え（移動 / 編集 / 書式…） |
+| **Ctrl+Alt+.** | カテゴリを次へ |
+| **Ctrl+Alt+,** | カテゴリを前へ |
+| タスクトレイアイコン ダブルクリック | 設定を開く |
+
+Excel を起動していると Excel のショートカット、PowerPoint を起動していると PowerPoint のショートカットが自動で切り替わります。
+
+---
+
+## 設定
+
+タスクトレイのアイコンをダブルクリックして設定を開きます。
+
+| 設定 | 説明 |
+|---|---|
+| 表示モード | 常時表示 / ホットキーで呼び出し |
+| 呼び出しキー | 右Shift / 右Alt / 右Ctrl など |
+| カラーテーマ | ダーク / ホワイト |
+| 透過率・サイズ | スライダーで調整 |
+| 表示位置 | 4コーナーから選択 |
+| ショートカット | カテゴリ・項目ごとに表示/非表示 |
+| 自動起動 | Windows 起動時に自動起動（詳細タブ） |
+
+---
+
+## アンインストール
+
+「設定」→「アプリ」→「Hayawaza」→「アンインストール」
+
+---
 
 ## 動作環境
 
-| 項目 | 要件 |
-|------|------|
-| OS | Windows 10 / 11 |
-| .NET | .NET 8 以上 (self-contained ビルド時は不要) |
-| 権限 | 非管理者で動作 |
+- Windows 10 / 11
+- .NET 8 Desktop Runtime（インストーラーが自動でインストールします）
 
-## ビルド手順
+---
 
-`reports/2026-07-09-build-guide.md` を参照してください。
+## よくある質問
+
+**Q. SmartScreen でブロックされる**
+A. コード署名証明書なしで配布しているため警告が表示されます。「詳細情報」→「実行」で続行できます。
+
+**Q. ウイルス対策ソフトが反応する**
+A. キー入力の検知（`GetAsyncKeyState`）と最前面ウィンドウの監視（`SetWinEventHook`）を行うため、一部のソフトが誤検知することがあります。ソースコードは公開しています。
+
+**Q. スクリーンショットにオーバーレイが映らない**
+A. 仕様です。Windows の `SetWindowDisplayAffinity(WDA_EXCLUDEFROMCAPTURE)` を使用しているため、スクリーンショットツールには映りません。
+
+**Q. 自動アップデートはいつ行われる？**
+A. 起動時にバックグラウンドでアップデートを確認します。次回起動時に新しいバージョンが適用されます。
+
+---
 
 ## プロジェクト構成
 
 ```
 src/ShortcutOverlay/
-├── ShortcutOverlay.csproj    プロジェクト定義
-├── app.manifest              高DPI対応・非管理者宣言
-├── App.xaml / App.xaml.cs    エントリ・トレイ常駐
-├── MainWindow.xaml / .cs     オーバーレイ本体 (PoC-1/2/3)
+├── App.xaml / App.xaml.cs         エントリ・トレイ常駐
+├── MainWindow.xaml / .cs          オーバーレイ本体
 ├── Models/
-│   ├── ShortcutEntry.cs      JSON データモデル
-│   ├── ShortcutViewModel.cs  表示用 ViewModel
-│   └── AppSettings.cs        設定スキーマ
+│   ├── AppSettings.cs             設定スキーマ
+│   ├── ShortcutEntry.cs           JSON データモデル
+│   └── ShortcutViewModel.cs       表示用 ViewModel
 ├── Services/
-│   ├── SettingsService.cs    設定保存/復元
-│   ├── ForegroundWatcher.cs  前面プロセス監視 (PoC-3)
-│   └── ShortcutDataService.cs ショートカットデータ読み込み
+│   ├── SettingsService.cs         設定保存/復元
+│   ├── ShortcutDataService.cs     ショートカットデータ
+│   ├── ForegroundWatcher.cs       前面プロセス監視
+│   └── StartupService.cs          スタートアップ登録
 ├── Views/
-│   └── SettingsWindow.xaml / .cs  設定 GUI (MVP 5-9)
+│   ├── SettingsWindow.xaml / .cs  設定 GUI
+│   └── WelcomeWindow.xaml / .cs   初回起動ウィザード
 └── Data/
-    └── shortcuts.json        ショートカット定義 (差し込み可)
+    └── shortcuts.json             ショートカット定義
 ```
-
-## ショートカットデータの拡張
-
-`Data/shortcuts.json` を編集してショートカットを追加・変更できます。スキーマは `docs/SPEC.md` セクション 7 を参照。
-
-## レッドライン
-
-- グローバルキー/マウスフック 禁止
-- 他アプリの内容読み取り 禁止
-- ネットワーク通信 一切禁止
-- 管理者権限要求 禁止

@@ -24,6 +24,14 @@ public partial class App : System.Windows.Application
         _settings = new SettingsService();
         _settings.Load();
 
+        if (_settings.IsFirstRun)
+        {
+            _settings.IsFirstRun = false;
+            _settings.Save();
+            var welcome = new Views.WelcomeWindow();
+            welcome.ShowDialog();
+        }
+
         _mainWindow = new MainWindow(_settings);
 
         // ウィンドウアイコンをファイルから設定

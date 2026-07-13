@@ -88,6 +88,12 @@ public class SettingsService
 
     public List<string> DebugTargetProcesses => _data.DebugTargetProcesses;
 
+    public bool IsFirstRun
+    {
+        get => _data.IsFirstRun;
+        set => _data.IsFirstRun = value;
+    }
+
     // ── ロード / セーブ ────────────────────────────────────────────────
 
     public void Load()

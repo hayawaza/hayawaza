@@ -559,14 +559,11 @@
                 <!-- 詳細タブ -->
                 <StackPanel x:Name="PageAdvanced" Visibility="Collapsed" Margin="0,4,0,16">
 
-                    <TextBlock Text="テスト / デバッグ" Style="{StaticResource SectionTitle}"/>
+                    <TextBlock Text="起動" Style="{StaticResource SectionTitle}"/>
                     <Border Style="{StaticResource Card}">
-                        <StackPanel>
-                            <TextBlock Text="デバッグ対象プロセス" Style="{StaticResource Label}" Margin="0,0,0,4"/>
-                            <TextBlock Text="空欄の場合 excel / powerpnt が対象。テスト時は notepad などを指定するとオーバーレイの動作を別アプリで確認できます。"
-                                       Foreground="#5858A0" FontSize="10" TextWrapping="Wrap" Margin="0,0,0,8"/>
-                            <TextBox x:Name="DebugProcessBox" ToolTip="例: notepad,calc"/>
-                        </StackPanel>
+                        <CheckBox x:Name="StartupCheck">
+                            <TextBlock Text="Windows 起動時に自動的に起動する" Foreground="#E0E0EC" FontSize="12"/>
+                        </CheckBox>
                     </Border>
 
                     <TextBlock Text="パフォーマンス" Style="{StaticResource SectionTitle}"/>
@@ -591,7 +588,7 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Hayawaza 早業" Style="{StaticResource Label}"/>
-                            <TextBlock Grid.Column="1" Text="v0.1.0" Foreground="#404060" FontSize="11" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" x:Name="VersionLabel" Text="" Foreground="#404060" FontSize="11" VerticalAlignment="Center"/>
                         </Grid>
                     </Border>
                 </StackPanel>
