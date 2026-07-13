@@ -4,24 +4,33 @@ namespace ShortcutOverlay.Models;
 public class AppSettings
 {
     /// <summary>"always" or "hotkey"</summary>
-    public string DisplayMode { get; set; } = "always";
+    public string DisplayMode { get; set; } = "hotkey";
 
-    /// <summary>RegisterHotKey の fsModifiers (MOD_SHIFT=4, MOD_CTRL=2, MOD_ALT=1)</summary>
-    public int HotkeyModifiers { get; set; } = 6; // Ctrl+Shift
+    /// <summary>"dark" or "white"</summary>
+    public string Theme { get; set; } = "dark";
 
-    /// <summary>仮想キーコード (既定: S = 0x53)</summary>
-    public int HotkeyVk { get; set; } = 0x53;
+    /// <summary>RegisterHotKey の fsModifiers (MOD_SHIFT=4, MOD_CTRL=2, MOD_ALT=1) — 単キーモードは 0</summary>
+    public int HotkeyModifiers { get; set; } = 0;
+
+    /// <summary>仮想キーコード (既定: 右Shift = 0xA1)</summary>
+    public int HotkeyVk { get; set; } = 0xA1;
 
     /// <summary>オーバーレイ不透明度 0.0–1.0</summary>
-    public double OverlayOpacity { get; set; } = 0.85;
+    public double OverlayOpacity { get; set; } = 0.97;
 
     /// <summary>スケール倍率</summary>
     public double OverlayScale { get; set; } = 1.0;
 
-    /// <summary>画面左端からのピクセル位置</summary>
+    /// <summary>配置コーナー: "top-left" / "top-right" / "bottom-left" / "bottom-right"</summary>
+    public string OverlayAnchor { get; set; } = "top-left";
+
+    /// <summary>コーナーからのオフセット (DIP px)</summary>
+    public double OverlayMargin { get; set; } = 40;
+
+    /// <summary>旧 X 座標 (互換用。OverlayAnchor が空の場合のみ参照)</summary>
     public double OverlayLeft { get; set; } = 50;
 
-    /// <summary>画面上端からのピクセル位置</summary>
+    /// <summary>旧 Y 座標 (互換用)</summary>
     public double OverlayTop { get; set; } = 50;
 
     /// <summary>非表示ショートカットの id リスト</summary>

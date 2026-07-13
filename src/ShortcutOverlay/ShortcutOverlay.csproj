@@ -8,17 +8,36 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <AssemblyName>ShortcutOverlay</AssemblyName>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <AssemblyName>Hayawaza</AssemblyName>
     <RootNamespace>ShortcutOverlay</RootNamespace>
-    <Version>0.1.0</Version>
-    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+    <StartupObject>ShortcutOverlay.Program</StartupObject>
+    <Version>1.0.1</Version>
+    <FileVersion>1.0.1.0</FileVersion>
+    <Company>Hayawaza</Company>
+    <Product>Hayawaza</Product>
+    <Copyright>Copyright © 2026 Hayawaza</Copyright>
+    <Description>キーボードショートカット表示オーバーレイ</Description>
+    <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Update="Assets\icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\icon_logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Data\shortcuts.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Resource Include="Resources\icon.ico" Condition="Exists('Resources\icon.ico')" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Velopack" Version="1.2.0" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,17 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ダーク (Apple Black) テーマ -->
+    <SolidColorBrush x:Key="OverlayPanelBg"      Color="#FF1C1C1E"/>
+    <SolidColorBrush x:Key="OverlayAppName"       Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="OverlaySubtitle"      Color="#ADADB3"/>
+    <SolidColorBrush x:Key="OverlayHint"          Color="#ADADB3"/>
+    <SolidColorBrush x:Key="OverlayCategoryName"  Color="#C7C7CC"/>
+    <SolidColorBrush x:Key="OverlayCategoryPage"  Color="#8E8E93"/>
+    <SolidColorBrush x:Key="OverlaySeparator"     Color="#48484A"/>
+    <SolidColorBrush x:Key="OverlayItemLabel"     Color="#E5E5EA"/>
+    <SolidColorBrush x:Key="OverlayKeyBadgeBg"    Color="#3A3A3C"/>
+    <SolidColorBrush x:Key="OverlayKeyText"       Color="#30D158"/>
+    <SolidColorBrush x:Key="OverlayDebug"         Color="#636366"/>
+
+</ResourceDictionary>

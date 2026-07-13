@@ -1,0 +1,16 @@
+# Build outputs
+src/ShortcutOverlay/bin/
+src/ShortcutOverlay/obj/
+src/ShortcutOverlay/publish/
+
+# Releases
+Releases/
+
+# VS / Rider
+.vs/
+.idea/
+*.user
+
+# OS
+Thumbs.db
+desktop.ini

@@ -1,7 +1,8 @@
 <Window x:Class="ShortcutOverlay.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ShortcutOverlay"
+        xmlns:local="clr-namespace:ShortcutOverlay"
+        Title="Hayawaza"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
@@ -11,34 +12,56 @@
         SizeToContent="WidthAndHeight">
 
     <Grid>
-        <!-- オーバーレイ本体 -->
         <Border x:Name="OverlayPanel"
-                Background="#CC1E1E2E"
+                Background="{DynamicResource OverlayPanelBg}"
                 CornerRadius="8"
                 Padding="12"
-                MinWidth="260"
-                MaxWidth="400">
+                MinWidth="280"
+                MaxWidth="420">
             <StackPanel>
-                <!-- ヘッダー -->
-                <DockPanel Margin="0,0,0,8">
+
+                <!-- App name + ホットキーヒント -->
+                <DockPanel Margin="0,0,0,4">
                     <TextBlock x:Name="AppNameLabel"
                                Text="Excel"
-                               Foreground="#A0A8FF"
+                               Foreground="{DynamicResource OverlayAppName}"
                                FontSize="13"
                                FontWeight="Bold"
                                VerticalAlignment="Center"/>
                     <TextBlock Text=" ショートカット"
-                               Foreground="#CCCCDD"
+                               Foreground="{DynamicResource OverlaySubtitle}"
                                FontSize="13"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="右Shift: 表示 / 左Shift: 次"
+                               Foreground="{DynamicResource OverlayHint}"
+                               FontSize="9"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               DockPanel.Dock="Right"/>
+                </DockPanel>
+
+                <!-- カテゴリ名 + ページ番号 -->
+                <DockPanel Margin="0,0,0,6">
+                    <TextBlock x:Name="CategoryPageLabel"
+                               Text=""
+                               Foreground="{DynamicResource OverlayCategoryPage}"
+                               FontSize="9"
+                               VerticalAlignment="Center"
+                               DockPanel.Dock="Right"/>
+                    <TextBlock x:Name="CategoryLabel"
+                               Text=""
+                               Foreground="{DynamicResource OverlayCategoryName}"
+                               FontSize="11"
+                               FontWeight="Bold"
                                VerticalAlignment="Center"/>
                 </DockPanel>
 
-                <Separator Background="#44FFFFFF" Margin="0,0,0,8"/>
+                <Separator Background="{DynamicResource OverlaySeparator}" Margin="0,0,0,4"/>
 
-                <!-- ショートカット一覧 (ItemsControl) -->
+                <!-- カテゴリ内ショートカット一覧 -->
                 <ItemsControl x:Name="ShortcutList">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
+                    <ItemsControl.Resources>
+                        <DataTemplate x:Key="ShortcutTemplate">
                             <Grid Margin="0,2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -46,45 +69,44 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0"
                                            Text="{Binding Label}"
-                                           Foreground="#DDDDEE"
+                                           Foreground="{DynamicResource OverlayItemLabel}"
                                            FontSize="11"
                                            VerticalAlignment="Center"
                                            TextWrapping="Wrap"/>
                                 <Border Grid.Column="1"
-                                        Background="#33FFFFFF"
+                                        Background="{DynamicResource OverlayKeyBadgeBg}"
                                         CornerRadius="3"
                                         Padding="4,1"
                                         Margin="8,0,0,0">
                                     <TextBlock Text="{Binding KeysDisplay}"
-                                               Foreground="#A0FFA0"
-                                               FontSize="11"
+                                               Foreground="{DynamicResource OverlayKeyText}"
                                                FontFamily="Consolas"
+                                               FontSize="11"
                                                VerticalAlignment="Center"/>
                                 </Border>
                             </Grid>
                         </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.GroupStyle>
-                        <GroupStyle>
-                            <GroupStyle.HeaderTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Name}"
-                                               Foreground="#8888BB"
-                                               FontSize="10"
-                                               FontWeight="Bold"
-                                               Margin="0,6,0,2"/>
-                                </DataTemplate>
-                            </GroupStyle.HeaderTemplate>
-                        </GroupStyle>
-                    </ItemsControl.GroupStyle>
+                        <DataTemplate x:Key="SeparatorTemplate">
+                            <Border Height="1"
+                                    Background="{DynamicResource OverlaySeparator}"
+                                    Opacity="0.4"
+                                    Margin="0,3,0,2"/>
+                        </DataTemplate>
+                    </ItemsControl.Resources>
+                    <ItemsControl.ItemTemplateSelector>
+                        <local:ShortcutItemTemplateSelector
+                            ShortcutTemplate="{StaticResource ShortcutTemplate}"
+                            SeparatorTemplate="{StaticResource SeparatorTemplate}"/>
+                    </ItemsControl.ItemTemplateSelector>
                 </ItemsControl>
 
-                <!-- プロセス名表示（デバッグ用） -->
+                <!-- デバッグ用 -->
                 <TextBlock x:Name="DebugLabel"
-                           Foreground="#556655"
+                           Foreground="{DynamicResource OverlayDebug}"
                            FontSize="9"
                            Margin="0,6,0,0"
                            Visibility="Collapsed"/>
+
             </StackPanel>
         </Border>
     </Grid>

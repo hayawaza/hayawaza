@@ -12,7 +12,10 @@ public class ShortcutViewModel : INotifyPropertyChanged
     public string Category { get; init; } = string.Empty;
     public string Label { get; init; } = string.Empty;
 
-    /// <summary>表示用キー文字列: combo="Ctrl+Home" / sequence="Alt → H → 1"</summary>
+    /// <summary>生キーリスト（共通プレフィクス検出用）</summary>
+    public List<string> Keys { get; init; } = new();
+
+    /// <summary>表示用キー文字列: combo="Ctrl+Home" / sequence="Alt→JDAAB"</summary>
     public string KeysDisplay { get; init; } = string.Empty;
 
     public bool IsVisible
@@ -31,7 +34,7 @@ public class ShortcutViewModel : INotifyPropertyChanged
     public static ShortcutViewModel From(ShortcutEntry entry)
     {
         var display = entry.KeyType == "sequence"
-            ? string.Join(" → ", entry.Keys)
+            ? FormatSequence(entry.Keys)
             : string.Join("+", entry.Keys);
 
         return new ShortcutViewModel
@@ -40,8 +43,16 @@ public class ShortcutViewModel : INotifyPropertyChanged
             App = entry.App,
             Category = entry.Category,
             Label = entry.Label,
+            Keys = entry.Keys,
             KeysDisplay = display,
             IsVisible = entry.DefaultVisible,
         };
+    }
+
+    // 各キーをスペース区切りで表示（例: "Alt J D A A L"）
+    private static string FormatSequence(List<string> keys)
+    {
+        if (keys.Count == 0) return string.Empty;
+        return string.Join(" ", keys);
     }
 }

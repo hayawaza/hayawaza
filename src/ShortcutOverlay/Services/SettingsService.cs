@@ -11,7 +11,7 @@ namespace ShortcutOverlay.Services;
 public class SettingsService
 {
     private static readonly string SettingsDir =
-        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ShortcutOverlay");
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Hayawaza");
     private static readonly string SettingsPath = Path.Combine(SettingsDir, "settings.json");
 
     private AppSettings _data = new();
@@ -22,6 +22,12 @@ public class SettingsService
     {
         get => _data.DisplayMode;
         set => _data.DisplayMode = value;
+    }
+
+    public string Theme
+    {
+        get => _data.Theme;
+        set => _data.Theme = value;
     }
 
     public int HotkeyModifiers
@@ -46,6 +52,18 @@ public class SettingsService
     {
         get => _data.OverlayScale;
         set => _data.OverlayScale = Math.Clamp(value, 0.5, 2.0);
+    }
+
+    public string OverlayAnchor
+    {
+        get => _data.OverlayAnchor;
+        set => _data.OverlayAnchor = value;
+    }
+
+    public double OverlayMargin
+    {
+        get => _data.OverlayMargin;
+        set => _data.OverlayMargin = Math.Max(0, value);
     }
 
     public double OverlayLeft

@@ -1,22 +1,40 @@
-using System.Windows;
 using ShortcutOverlay.Services;
 
 namespace ShortcutOverlay;
 
-public partial class App : Application
+public partial class App : System.Windows.Application
 {
+    private static Mutex? _instanceMutex;
     private System.Windows.Forms.NotifyIcon? _trayIcon;
     private MainWindow? _mainWindow;
     private SettingsService? _settings;
 
-    protected override void OnStartup(StartupEventArgs e)
+    protected override void OnStartup(System.Windows.StartupEventArgs e)
     {
+        // 多重起動防止
+        _instanceMutex = new Mutex(true, "Hayawaza_SingleInstance_v2", out bool createdNew);
+        if (!createdNew)
+        {
+            Shutdown();
+            return;
+        }
+
         base.OnStartup(e);
 
         _settings = new SettingsService();
         _settings.Load();
 
         _mainWindow = new MainWindow(_settings);
+
+        // ウィンドウアイコンをファイルから設定
+        try
+        {
+            var iconPath = System.IO.Path.Combine(AppContext.BaseDirectory, "Assets", "icon.png");
+            if (System.IO.File.Exists(iconPath))
+                _mainWindow.Icon = System.Windows.Media.Imaging.BitmapFrame.Create(
+                    new Uri(iconPath, UriKind.Absolute));
+        }
+        catch { }
 
         InitTrayIcon();
 
@@ -27,14 +45,13 @@ public partial class App : Application
     {
         _trayIcon = new System.Windows.Forms.NotifyIcon
         {
-            Text = "ShortcutOverlay",
+            Text = "Hayawaza",
             Visible = true,
         };
 
-        // アイコンがない場合は SystemIcons を流用
         try
         {
-            var iconPath = System.IO.Path.Combine(AppContext.BaseDirectory, "Resources", "icon.ico");
+            var iconPath = System.IO.Path.Combine(AppContext.BaseDirectory, "Assets", "icon.ico");
             if (System.IO.File.Exists(iconPath))
                 _trayIcon.Icon = new System.Drawing.Icon(iconPath);
             else
@@ -66,7 +83,7 @@ public partial class App : Application
         Shutdown();
     }
 
-    protected override void OnExit(ExitEventArgs e)
+    protected override void OnExit(System.Windows.ExitEventArgs e)
     {
         _settings?.Save();
         _trayIcon?.Dispose();

@@ -1,14 +1,9 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Threading;
-using ShortcutOverlay.Services;
 
 namespace ShortcutOverlay.Services;
 
-/// <summary>
-/// PoC-3: GetForegroundWindow を DispatcherTimer で定期ポーリングし、
-/// 対象アプリへの切替を AppChanged イベントで通知する。
-/// </summary>
 public class ForegroundWatcher
 {
     [DllImport("user32.dll")]
@@ -24,8 +19,8 @@ public class ForegroundWatcher
     private readonly DispatcherTimer _timer;
     private string _lastProcessName = string.Empty;
 
-    /// <summary>前面アプリが変化したとき（または対象外になったとき ""）に発火</summary>
-    public event Action<string>? AppChanged;
+    /// <summary>前面アプリが変化したとき発火。対象外になった場合は (string.Empty, IntPtr.Zero)。</summary>
+    public event Action<string, IntPtr>? AppChanged;
 
     public ForegroundWatcher(SettingsService settings)
     {
@@ -42,43 +37,38 @@ public class ForegroundWatcher
 
     private void OnTick(object? sender, EventArgs e)
     {
-        // ポーリング間隔が設定変更された場合に反映
         var expectedInterval = TimeSpan.FromMilliseconds(_settings.PollingIntervalMs);
         if (_timer.Interval != expectedInterval)
             _timer.Interval = expectedInterval;
 
-        var processName = GetForegroundProcessName();
+        var hwnd = GetForegroundWindow();
+        var processName = GetProcessName(hwnd);
 
         if (processName == _lastProcessName) return;
         _lastProcessName = processName;
 
-        AppChanged?.Invoke(IsTarget(processName) ? processName : string.Empty);
+        if (IsTarget(processName))
+            AppChanged?.Invoke(processName, hwnd);
+        else
+            AppChanged?.Invoke(string.Empty, IntPtr.Zero);
     }
 
-    private string GetForegroundProcessName()
+    private string GetProcessName(IntPtr hwnd)
     {
         try
         {
-            var hwnd = GetForegroundWindow();
             if (hwnd == IntPtr.Zero) return string.Empty;
-
             GetWindowThreadProcessId(hwnd, out var pid);
             if (pid == 0) return string.Empty;
-
-            var proc = Process.GetProcessById((int)pid);
-            return proc.ProcessName.ToLowerInvariant();
+            return Process.GetProcessById((int)pid).ProcessName.ToLowerInvariant();
         }
-        catch
-        {
-            return string.Empty;
-        }
+        catch { return string.Empty; }
     }
 
     private bool IsTarget(string processName)
     {
         if (string.IsNullOrEmpty(processName)) return false;
 
-        // デバッグ用プロセス差し替え（SPEC.md 6.1）
         var targets = _settings.DebugTargetProcesses is { Count: > 0 } debug
             ? new HashSet<string>(debug, StringComparer.OrdinalIgnoreCase)
             : DefaultTargets;

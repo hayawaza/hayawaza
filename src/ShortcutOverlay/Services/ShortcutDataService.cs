@@ -4,55 +4,91 @@ using ShortcutOverlay.Models;
 
 namespace ShortcutOverlay.Services;
 
-/// <summary>
-/// shortcuts.json を読み込み、アプリ別・可視フィルタ適用後のビューモデルリストを返す。
-/// </summary>
 public class ShortcutDataService
 {
-    private List<ShortcutEntry> _entries = new();
+    private static readonly string UserShortcutsPath =
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "Hayawaza", "user_shortcuts.json");
+
+    private List<ShortcutEntry> _builtIn = new();
+    private List<ShortcutEntry> _user = new();
 
     public ShortcutDataService()
     {
-        Load();
+        LoadBuiltIn();
+        LoadUser();
     }
 
-    private void Load()
+    private void LoadBuiltIn()
     {
         try
         {
             var path = Path.Combine(AppContext.BaseDirectory, "Data", "shortcuts.json");
             if (!File.Exists(path)) return;
             var json = File.ReadAllText(path);
-            _entries = JsonSerializer.Deserialize<List<ShortcutEntry>>(
-                json,
-                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-            ) ?? new();
+            _builtIn = JsonSerializer.Deserialize<List<ShortcutEntry>>(
+                json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new();
         }
-        catch
-        {
-            _entries = new();
-        }
+        catch { _builtIn = new(); }
     }
 
-    /// <summary>
-    /// 指定アプリかつ非表示リストに含まれていないエントリを ViewModel に変換して返す。
-    /// </summary>
+    private void LoadUser()
+    {
+        try
+        {
+            if (!File.Exists(UserShortcutsPath)) return;
+            var json = File.ReadAllText(UserShortcutsPath);
+            _user = JsonSerializer.Deserialize<List<ShortcutEntry>>(
+                json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new();
+            foreach (var e in _user) e.IsUserDefined = true;
+        }
+        catch { _user = new(); }
+    }
+
+    private void SaveUser()
+    {
+        try
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(UserShortcutsPath)!);
+            var json = JsonSerializer.Serialize(_user, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(UserShortcutsPath, json);
+        }
+        catch { }
+    }
+
+    private List<ShortcutEntry> All => _builtIn.Concat(_user).ToList();
+
     public List<ShortcutViewModel> GetVisible(string appProcessName, IEnumerable<string> hiddenIds)
     {
         var hidden = new HashSet<string>(hiddenIds, StringComparer.OrdinalIgnoreCase);
-        return _entries
+        return All
             .Where(e => e.App.Equals(appProcessName, StringComparison.OrdinalIgnoreCase)
                      && !hidden.Contains(e.Id))
             .Select(ShortcutViewModel.From)
             .ToList();
     }
 
-    /// <summary>指定アプリの全エントリ（設定UI用）</summary>
     public List<ShortcutEntry> GetAll(string appProcessName) =>
-        _entries
-            .Where(e => e.App.Equals(appProcessName, StringComparison.OrdinalIgnoreCase))
-            .ToList();
+        All.Where(e => e.App.Equals(appProcessName, StringComparison.OrdinalIgnoreCase)).ToList();
 
-    /// <summary>全エントリ（設定UI: ショートカット ON/OFF リスト用）</summary>
-    public List<ShortcutEntry> GetAllEntries() => _entries.ToList();
+    public List<ShortcutEntry> GetAllEntries() => All;
+
+    public void AddUserEntry(ShortcutEntry entry)
+    {
+        entry.IsUserDefined = true;
+        _user.Add(entry);
+        SaveUser();
+    }
+
+    public void RemoveUserEntry(string id)
+    {
+        _user.RemoveAll(e => e.Id == id);
+        SaveUser();
+    }
+
+    public void Reload()
+    {
+        LoadBuiltIn();
+        LoadUser();
+    }
 }

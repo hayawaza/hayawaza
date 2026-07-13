@@ -13,4 +13,7 @@ public class ShortcutEntry
     public string KeyType { get; set; } = "combo";
 
     public bool DefaultVisible { get; set; } = true;
+
+    /// <summary>ユーザーが追加したカスタムショートカット</summary>
+    public bool IsUserDefined { get; set; } = false;
 }
