@@ -12,7 +12,7 @@ param(
     [string]$Version     = "1.0.3.0",
     [string]$PublisherId = "CN=PUBLISHER_ID_PLACEHOLDER",
     [string]$OutDir      = (Join-Path $PSScriptRoot "..\..\_outputs\hayawaza-msix"),
-    [string]$MakeAppx    = (Join-Path $env:LOCALAPPDATA "Temp\claude\msix-tools\buildtools\bin\10.0.22621.0\x64\makeappx.exe")
+    [string]$MakeAppx    = (Join-Path $env:USERPROFILE ".nuget\packages\microsoft.windows.sdk.buildtools\10.0.22621.756\bin\10.0.22621.0\x64\makeappx.exe")
 )
 
 $ErrorActionPreference = "Stop"
